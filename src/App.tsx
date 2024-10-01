@@ -6,16 +6,44 @@ import StepThree from "./components/StepThree"
 import StepFour from "./components/StepFour"
 import Finish from "./components/Finish"
 
+interface StepOneData {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+interface StepTwoData {
+  name: string;
+  price: string;
+}
+
+interface StepThreeData {
+  name: string;
+  price: string;
+}
+
+interface FormData {
+  stepOneData: StepOneData;
+  stepTwoData: StepTwoData;
+  stepThreeData: StepThreeData[];
+}
+
 const App = () => {
-  const [formData, setFormData] = useState({
-    stepOneData: {},
-    stepTwoData: {},
-    stepThreeData: {}
+  const [formData, setFormData] = useState<FormData>({
+    stepOneData: {
+      name: "",
+      email: "",
+      phone: ""
+    },
+    stepTwoData: {
+      name: "",
+      price: ""
+    },
+    stepThreeData: []
   });
 
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  // Function to handle data submission from child components
   const updateFormData = (step: string, data: object) => {
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -52,17 +80,14 @@ const App = () => {
             updateFormData={updateFormData}
           />}
         {currentStep === 4 && <StepFour
-            formData = {formData}
+            formData={formData}
             onNext={handleNextStep}
             onPrevious={handlePreviousStep}
           />}
         {currentStep > 4 && <Finish /> }
       </div>
-
-      {/* Debugging purpose: Shows current formData */}
-      {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
     </div>
-  )
+  );
 }
 
 export default App;
